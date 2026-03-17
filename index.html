@@ -1,434 +1,404 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Synthesis Samples</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width" />
-		<link rel="stylesheet" type="text/css" href="css/pcTest.css">
-		<link rel="stylesheet" type="text/css" href="css/table-generator.css">
-	</head>
-	<body>
-		<div class="header">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lightweight Cross-Lingual Speaker Adaptation for Indic TTS — Interspeech 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
 
-			<div class="page-title">
-				<div class="page-title-main">
-					TTS Experiments
-				</div>
-				<div class="page-title-sub above-640">
-					Audio Samples
-				</div>
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0f2044 0%, #1a3a6e 60%, #1e4d8c 100%);
+      color: white; padding: 52px 5% 44px;
+    }
+    .hero-inner { max-width: 900px; margin: 0 auto; }
+    .venue-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px; padding: 4px 14px;
+      font-size: 13px; font-weight: 500; letter-spacing: 0.03em; margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(20px, 3.2vw, 34px); font-weight: 700;
+      line-height: 1.25; margin-bottom: 8px; letter-spacing: -0.02em;
+    }
+    .hero-sub { font-size: 14px; opacity: 0.6; margin-bottom: 22px; font-style: italic; }
+    .abstract-box {
+      background: rgba(255,255,255,0.08); border-left: 3px solid #60a5fa;
+      border-radius: 0 8px 8px 0; padding: 14px 18px;
+      font-size: 14px; line-height: 1.75; opacity: 0.88;
+    }
 
-			</div>
-		</div> 
-		<div class="content">
-			<div class="instructions">
-				<b>Various Evaluations done for the Paper::: ONE VOICE, MANY TONGUES: INCLUSIVE TTS FOR INDIAN LANGUAGES
-					</b>
-				<br><br>
+    /* ── Section ── */
+    .section { max-width: 980px; margin: 0 auto; padding: 44px 20px; }
+    .section-title {
+      font-size: 19px; font-weight: 700; color: #0f2044;
+      margin-bottom: 5px; display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after { content:''; flex:1; height:2px; background: linear-gradient(to right,#3b82f6,transparent); }
+    .section-subtitle { font-size: 13.5px; color: #64748b; margin-bottom: 26px; }
 
-				<!-- Section for dmos/sanskrit/ Systems -->
-				<p class="centeralign"><b><u class="color-blue">Few samples of MOS test for Speaker Similarity: Hindi Code-mixed</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>Samples</th>
-						<th>IN-F5</th>
-						<th>Our Model</th>
-					</tr>
-					<!-- Add the 5 samples for dmos/sanskrit/ -->
-					
-					<tr>
-						<td class="type">Sample 1</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/16.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/16.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s1_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 2</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/17.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/17.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
+    /* ── Pipeline ── */
+    .pipeline { display: flex; align-items: stretch; }
+    .pipeline-stage {
+      flex: 1; background: white; border-radius: 12px; padding: 20px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;
+    }
+    .pipeline-arrow { display:flex; align-items:center; justify-content:center; width:36px; flex-shrink:0; color:#94a3b8; font-size:20px; }
+    .stage-num {
+      width:28px; height:28px; border-radius:50%; display:flex; align-items:center;
+      justify-content:center; font-size:13px; font-weight:700; color:white; margin-bottom:10px;
+    }
+    .stage-1 .stage-num { background:#6366f1; }
+    .stage-2 .stage-num { background:#f59e0b; }
+    .stage-3 .stage-num { background:#10b981; }
+    .pipeline-stage h3 { font-size:14px; font-weight:600; margin-bottom:6px; }
+    .pipeline-stage p  { font-size:12.5px; color:#64748b; line-height:1.5; }
+    .stage-tag { display:inline-block; margin-top:10px; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; letter-spacing:0.04em; }
+    .tag-purple { background:#ede9fe; color:#6d28d9; }
+    .tag-amber  { background:#fef3c7; color:#b45309; }
+    .tag-green  { background:#d1fae5; color:#065f46; }
 
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s1_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 3</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/18.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/18.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s1_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 4</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/19.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/19.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s1_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 5</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/20.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/20.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s1_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-				</table>
-				<br>
-				<p class="centeralign"><b><u class="color-blue">Few samples of MOS test for Speaker Similarity: Tamil Code-mixed</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>Samples</th>
-						<th>IN-F5</th>
-						<th>Our Model</th>
-						<!-- <th>Kannada</th> -->
-					</tr>
-					<!-- Add the 5 samples for dmos/sanskrit/ -->
-					
-					<tr>
-						<td class="type">Sample 1</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/21.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/21.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kon/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 2</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/22.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/22.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kon/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
+    /* ── Reference ── */
+    .ref-card {
+      background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+      padding: 20px 24px; display: flex; align-items: center; gap: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .ref-icon {
+      width:48px; height:48px; border-radius:50%;
+      background: linear-gradient(135deg,#dbeafe,#bfdbfe);
+      display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0;
+    }
+    .ref-info h4 { font-size:15px; font-weight:600; margin-bottom:4px; }
+    .ref-info p  { font-size:13px; color:#64748b; margin-bottom:10px; }
+    .ref-card audio { height:36px; width:280px; }
 
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 3</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/23.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/23.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kon/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 4</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/24.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/24.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kon/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 5</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/25.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/25.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kon/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-				</table>
-				<br>
-				<p class="centeralign"><b><u class="color-blue">Few samples of MOS test for Speaker Similarity: Telugu Code-mixed</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>Samples</th>
-						<th>IN-F5</th>
-						<th>Our Model</th>
-						<!-- <th>Kannada</th> -->
-					</tr>
-					<!-- Add the 5 samples for dmos/sanskrit/ -->
-					
-					<tr>
-						<td class="type">Sample 1</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/26.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/26.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/canara_kon/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 2</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/27.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/27.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/canara_kon/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
+    /* ── Language blocks ── */
+    .lang-block { margin-bottom: 28px; }
+    .lang-block:last-child { margin-bottom: 0; }
 
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 3</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/28.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/28.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/canara_kon/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 4</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/29.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/29.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/canara_kon/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">Sample 5</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/30.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/30.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/canara_kon/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-				</table>
-				<!-- <br>
-				<p class="centeralign"><b><u class="color-blue">MOS test Samples: Maithili</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>Samples</th>
-						<th>Natural</th>
-						<th>Hindi</th>
-						<!- <th>Kannada</th>
-					</tr>
-					<!- Add the 5 samples for dmos/sanskrit/ 
-					
-					<tr>
-						<td class="type">Sample 1</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/natural_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s1_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> 
-					</tr>
-					<tr>
-						<td class="type">Sample 2</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/natural_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s1_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> 
+    .lang-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 20px;
+      border-radius: 12px 12px 0 0;
+      border: 1px solid transparent;
+      border-bottom: none;
+    }
+    .lang-header-hindi   { background: #fff7ed; border-color: #fed7aa; }
+    .lang-header-marathi { background: #f5f3ff; border-color: #ddd6fe; }
+    .lang-header-tamil   { background: #f0fdfa; border-color: #99f6e4; }
+    .lang-header-telugu  { background: #fef2f2; border-color: #fecaca; }
 
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> 
-					</tr>
-					<tr>
-						<td class="type">Sample 3</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/natural_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s1_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -
-					</tr>
-					<tr>
-						<td class="type">Sample 4</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/natural_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s1_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> --
-					</tr>
-					<tr>
-						<td class="type">Sample 5</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/natural_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s1_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/maithili/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> --
-					</tr>
-				</table>
-				<br>
-				<p class="centeralign"><b><u class="color-blue">MOS test Samples: Kurukh</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>Samples</th>
-						<th>Natural</th>
-						<th>Hindi</th>
-						<th>Kannada</th>
-					</tr>
-					<!- Add the 5 samples for dmos/sanskrit/ --
-					
-					<tr>
-						<td class="type">Sample 1</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/natural_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s1_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> --
-					</tr>
-					<tr>
-						<td class="type">Sample 2</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/natural_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s1_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
+    .lang-name {
+      font-size: 16px; font-weight: 700;
+    }
+    .lang-name-hindi   { color: #c2410c; }
+    .lang-name-marathi { color: #6d28d9; }
+    .lang-name-tamil   { color: #0f766e; }
+    .lang-name-telugu  { color: #b91c1c; }
 
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> --
-					</tr>
-					<tr>
-						<td class="type">Sample 3</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/natural_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s1_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> --
-					</tr>
-					<tr>
-						<td class="type">Sample 4</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/natural_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s1_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> --
-					</tr>
-					<tr>
-						<td class="type">Sample 5</td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/natural_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s1_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/kurukh/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/s2_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> --
-					</tr>
-				</table>
-				<br> -->
-				<!-- Section for FastSpeech2 Systems -->
+    .seen-badge {
+      font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+      background: #fef3c7; color: #92400e; letter-spacing: 0.03em;
+    }
+    .cross-badge {
+      font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+      background: #ede9fe; color: #5b21b6; letter-spacing: 0.03em;
+    }
 
-				<!-- Repeat the same pattern for other tests -->
+    /* ── Sample table ── */
+    .sample-table {
+      width: 100%; border-collapse: collapse; background: white;
+      border: 1px solid #e2e8f0; border-radius: 0 0 12px 12px; overflow: hidden;
+    }
+    .sample-table thead tr { background: #f8fafc; }
+    .sample-table th {
+      padding: 10px 16px; font-size: 12.5px; font-weight: 600;
+      color: #475569; text-align: left; border-bottom: 2px solid #e2e8f0;
+    }
+    .sample-table td {
+      padding: 13px 16px; font-size: 13px;
+      border-bottom: 1px solid #f1f5f9; vertical-align: middle;
+    }
+    .sample-table tbody tr:last-child td { border-bottom: none; }
+    .sample-table tbody tr:hover { background: #fafafa; }
 
-				<p class="centeralign"><b><u class="color-blue">Few samples of SUS test for Word Intelligibility: Hindi Code-mixed</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>SUS sentences</th>
-						<!-- <th>Natural</th> -->
-						<th>IN-F5</th>
-						<th>Our Model</th>
-						<!-- <th>Kannada</th> -->
-					</tr>
-					<!-- Add the 5 samples for dmos/sanskrit/ -->
-					
-					<tr>
-						<td class="type">तेज purple chair ने suddenly पानी को sing करना शुरू कर दिया।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_1_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">sleepy red pillow quietly clouds के साथ noodles share कर रहा था।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_3_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">cool monkey ने street light से डरकर guitar बजाना बंद किया।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_4_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">laptop वाले peacock ने loudly spicy tea spill कर दिया।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/4.wav""></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_5_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">pretty window quietly banana को microwave में forget कर गई।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/5.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/5.wav""></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_6_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
+    .sample-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: white;
+    }
 
-				</table>
-				<br>
+    .sys-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot-inf5    { background: #94a3b8; }
+    .dot-basefs2 { background: #60a5fa; }
+    .dot-ours    { background: #34d399; }
 
-				<p class="centeralign"><b><u class="color-blue">Few samples of SUS test for Word Intelligibility: Tamil Code-mixed</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>SUS sentences</th>
-						<!-- <th>Natural</th> -->
-						<!-- <th>Hindi</th> -->
-						<th>IN-F5</th>
-						<th>Our Model</th>
-						<!-- <th>Marathi</th> -->
-					</tr>
-					<!-- Add the 5 samples for dmos/sanskrit/ -->
-					
-					<tr>
-						<td class="type">வேகமாய் பறந்த பிங்க் chair ஒரு hot water bottle ஓப்பன் பண்ணிச்சு.</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/6.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/6.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_1_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">sleepy dog ஒரு spicy burger microwave பண்ணி share பண்ணினான்.</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/7.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/7.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_2_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">calm peacock நல்லா popcorn mix பண்ணி window ல விட்டுட்டு போனது.</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/8.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/8.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_3_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">laptop உடன் green umbrella silence வச்சு chocolate paint பண்ணியது.</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/9.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/9.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_4_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">பசிக்கேட்ட orange pillow suddenly music play பண்ணி freeze ஆயிடுச்சு.</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/10.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/10.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_5_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-									</table>
-				<br>
-				<p class="centeralign"><b><u class="color-blue">Few samples of SUS test for Word Intelligibility: Telugu Code-mixed</u></b></p>
-				<br>
-				<table class="demo-table">
-					<tr>
-						<th>SUS sentences</th>
-						<!-- <th>Natural</th> -->
-						<!-- <th>Hindi</th> -->
-						<th>IN-F5</th>
-						<th>Our Model</th>
-					</tr>
-					<!-- Add the 5 samples for dmos/sanskrit/ -->
-					
-					<tr>
-						<td class="type">తిన్నాక రాము fridge దగ్గర తడి గడ్డితో selfie తీసుకున్నాడు।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_0.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/11.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/11.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_1_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">చిన్ని పాపా chocolate తీసుకుని మంచంపై quietly కూర్చుంది।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_1.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/12.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/12.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_2_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">నిన్న నీటి బిందె calculator మీద పడిపోయింది।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_2.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/13.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/13.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_3_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">ఆకలి వేసి table పైన బాదం spread చేశాడు బంటు।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_3.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/14.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/14.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_4_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-					<tr>
-						<td class="type">బరువైన బుట్ట phone చేతిలో పడిపోయి alarm వాయించింది।</td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/dmos/sanskrit/natural_4.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/f5_new/output_16k/15.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/hindi/fs2_new/15.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td>
-						<!-- <td><a onclick="closeAllAudio();this.firstChild.play()"><audio><source src="audio_files/sus/sanskrit/kannada_model_sanskrit_5_ph3_FS.wav"></audio><img width="30" alt="" src="img/audio.png" height="30"></a></td> -->
-					</tr>
-									</table>
-			</div>
-		</div>
-		<div class="footer">
-		</div>
-		<script src="js/jquery-2.1.4.min.js"></script>
-		<script src="js/code.js"></script>
-	</body>
+    audio { height: 32px; width: 100%; min-width: 140px; max-width: 210px; display: block; }
+
+    /* ── Footer ── */
+    .footer {
+      background: #0f2044; color: rgba(255,255,255,0.4);
+      text-align: center; padding: 20px; font-size: 13px; margin-top: 4px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .pipeline { flex-direction: column; }
+      .pipeline-arrow { transform: rotate(90deg); width: 100%; height: 28px; }
+      .ref-card { flex-direction: column; }
+      .ref-card audio { width: 100%; max-width: 100%; }
+      .sample-table th, .sample-table td { padding: 10px 10px; }
+      audio { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="venue-badge">🎙 &nbsp;Interspeech 2026 &nbsp;·&nbsp; <span>Anonymous Submission</span></div>
+    <h1>Lightweight Cross-Lingual Speaker Adaptation<br>for Indic TTS</h1>
+    <p class="hero-sub">Audio samples accompanying the paper</p>
+    <div class="abstract-box">
+      We propose a lightweight speaker adaptation pipeline requiring only a <strong>10-second reference sample</strong>.
+      Synthetic speech from IN-F5 is filtered through a four-stage quality-control pipeline and used to fine-tune
+      a FastSpeech2 model with dual-site ECAPA-TDNN speaker conditioning and a cosine consistency loss.
+      CLS-based phoneme unification enables the adapted voice to synthesise speech across
+      <strong>Hindi, Marathi, Tamil, and Telugu</strong> —
+      running <strong>53× faster</strong> than IN-F5 at <strong>4.7× lower</strong> parameter count.
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════ PIPELINE ══════════════════════ -->
+<div style="background:white; border-bottom:1px solid #e2e8f0;">
+  <div class="section" style="padding-bottom:40px;">
+    <h2 class="section-title">Proposed Pipeline</h2>
+    <p class="section-subtitle">Three stages: pretrain a multilingual base → generate &amp; filter synthetic data → fine-tune to target speaker</p>
+    <div class="pipeline">
+      <div class="pipeline-stage stage-1">
+        <div class="stage-num">1</div>
+        <h3>Multi-Speaker Pretraining</h3>
+        <p>FastSpeech2 + HiFi-GAN trained on ~119 h across Hindi, Marathi, Tamil &amp; Telugu with CLS phoneme unification and dual-site ECAPA-TDNN speaker conditioning.</p>
+        <span class="stage-tag tag-purple">Base FS2</span>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-stage stage-2">
+        <div class="stage-num">2</div>
+        <h3>Synthetic Data Generation &amp; Filtering</h3>
+        <p>10 s reference → IN-F5 voice cloning → 4-stage pipeline (CER ≤10%, pitch, duration, log-likelihood pruning) → 2.34 h clean corpus.</p>
+        <span class="stage-tag tag-amber">Quality Control</span>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-stage stage-3">
+        <div class="stage-num">3</div>
+        <h3>Target Speaker Fine-Tuning</h3>
+        <p>Pretrained base model fine-tuned on the filtered corpus. Speaker conditioning layers adapt to the target voice while preserving multilingual phoneme knowledge.</p>
+        <span class="stage-tag tag-green">Our Model</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ REFERENCE ══════════════════════ -->
+<div class="section" style="padding-bottom: 32px;">
+  <h2 class="section-title">Speaker Reference</h2>
+  <p class="section-subtitle">The only real recording used — a 10-second Hindi clip from PIB India. All systems are conditioned on this identity.</p>
+  <div class="ref-card">
+    <div class="ref-icon">🎤</div>
+    <div class="ref-info">
+      <h4>Hindi Reference (PIB India)</h4>
+      <p>10-second male Hindi speaker · sole adaptation input</p>
+      <audio controls src="audio_files/reference/hindi_ref.wav"></audio>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ AUDIO DEMOS ══════════════════════ -->
+<div style="background:white; border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
+  <div class="section">
+    <h2 class="section-title">Listening Samples</h2>
+    <p class="section-subtitle">
+      5 utterances per language &nbsp;·&nbsp;
+      <strong>Hindi</strong> = seen (adaptation language) &nbsp;·&nbsp;
+      <strong>Marathi / Tamil / Telugu</strong> = cross-lingual (zero adaptation data)
+    </p>
+
+    <!-- ── Hindi ── -->
+    <div class="lang-block">
+      <div class="lang-header lang-header-hindi">
+        <span class="lang-name lang-name-hindi">Hindi &nbsp;हिन्दी</span>
+        <span class="seen-badge">seen</span>
+      </div>
+      <table class="sample-table">
+        <thead><tr>
+          <th style="width:42px;">#</th>
+          <th><span class="sys-dot"><span class="dot dot-inf5"></span>IN-F5</span></th>
+          <th><span class="sys-dot"><span class="dot dot-basefs2"></span>Base FS2</span></th>
+          <th><span class="sys-dot"><span class="dot dot-ours"></span>Ours</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td><span class="sample-num" style="background:#f97316;">1</span></td>
+            <td><audio controls src="audio_files/hindi/inf5/1.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/basefs2/1.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/ours/1.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#f97316;">2</span></td>
+            <td><audio controls src="audio_files/hindi/inf5/2.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/basefs2/2.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/ours/2.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#f97316;">3</span></td>
+            <td><audio controls src="audio_files/hindi/inf5/3.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/basefs2/3.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/ours/3.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#f97316;">4</span></td>
+            <td><audio controls src="audio_files/hindi/inf5/4.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/basefs2/4.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/ours/4.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#f97316;">5</span></td>
+            <td><audio controls src="audio_files/hindi/inf5/5.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/basefs2/5.wav"></audio></td>
+            <td><audio controls src="audio_files/hindi/ours/5.wav"></audio></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Marathi ── -->
+    <div class="lang-block">
+      <div class="lang-header lang-header-marathi">
+        <span class="lang-name lang-name-marathi">Marathi &nbsp;मराठी</span>
+        <span class="cross-badge">cross-lingual</span>
+      </div>
+      <table class="sample-table">
+        <thead><tr>
+          <th style="width:42px;">#</th>
+          <th><span class="sys-dot"><span class="dot dot-inf5"></span>IN-F5</span></th>
+          <th><span class="sys-dot"><span class="dot dot-basefs2"></span>Base FS2</span></th>
+          <th><span class="sys-dot"><span class="dot dot-ours"></span>Ours</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td><span class="sample-num" style="background:#7c3aed;">1</span></td>
+            <td><audio controls src="audio_files/marathi/inf5/1.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/basefs2/1.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/ours/1.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#7c3aed;">2</span></td>
+            <td><audio controls src="audio_files/marathi/inf5/2.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/basefs2/2.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/ours/2.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#7c3aed;">3</span></td>
+            <td><audio controls src="audio_files/marathi/inf5/3.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/basefs2/3.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/ours/3.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#7c3aed;">4</span></td>
+            <td><audio controls src="audio_files/marathi/inf5/4.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/basefs2/4.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/ours/4.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#7c3aed;">5</span></td>
+            <td><audio controls src="audio_files/marathi/inf5/5.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/basefs2/5.wav"></audio></td>
+            <td><audio controls src="audio_files/marathi/ours/5.wav"></audio></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Tamil ── -->
+    <div class="lang-block">
+      <div class="lang-header lang-header-tamil">
+        <span class="lang-name lang-name-tamil">Tamil &nbsp;தமிழ்</span>
+        <span class="cross-badge">cross-lingual</span>
+      </div>
+      <table class="sample-table">
+        <thead><tr>
+          <th style="width:42px;">#</th>
+          <th><span class="sys-dot"><span class="dot dot-inf5"></span>IN-F5</span></th>
+          <th><span class="sys-dot"><span class="dot dot-basefs2"></span>Base FS2</span></th>
+          <th><span class="sys-dot"><span class="dot dot-ours"></span>Ours</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td><span class="sample-num" style="background:#0d9488;">1</span></td>
+            <td><audio controls src="audio_files/tamil/inf5/1.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/basefs2/1.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/ours/1.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#0d9488;">2</span></td>
+            <td><audio controls src="audio_files/tamil/inf5/2.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/basefs2/2.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/ours/2.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#0d9488;">3</span></td>
+            <td><audio controls src="audio_files/tamil/inf5/3.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/basefs2/3.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/ours/3.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#0d9488;">4</span></td>
+            <td><audio controls src="audio_files/tamil/inf5/4.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/basefs2/4.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/ours/4.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#0d9488;">5</span></td>
+            <td><audio controls src="audio_files/tamil/inf5/5.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/basefs2/5.wav"></audio></td>
+            <td><audio controls src="audio_files/tamil/ours/5.wav"></audio></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Telugu ── -->
+    <div class="lang-block">
+      <div class="lang-header lang-header-telugu">
+        <span class="lang-name lang-name-telugu">Telugu &nbsp;తెలుగు</span>
+        <span class="cross-badge">cross-lingual</span>
+      </div>
+      <table class="sample-table">
+        <thead><tr>
+          <th style="width:42px;">#</th>
+          <th><span class="sys-dot"><span class="dot dot-inf5"></span>IN-F5</span></th>
+          <th><span class="sys-dot"><span class="dot dot-basefs2"></span>Base FS2</span></th>
+          <th><span class="sys-dot"><span class="dot dot-ours"></span>Ours</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td><span class="sample-num" style="background:#dc2626;">1</span></td>
+            <td><audio controls src="audio_files/telugu/inf5/1.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/basefs2/1.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/ours/1.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#dc2626;">2</span></td>
+            <td><audio controls src="audio_files/telugu/inf5/2.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/basefs2/2.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/ours/2.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#dc2626;">3</span></td>
+            <td><audio controls src="audio_files/telugu/inf5/3.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/basefs2/3.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/ours/3.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#dc2626;">4</span></td>
+            <td><audio controls src="audio_files/telugu/inf5/4.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/basefs2/4.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/ours/4.wav"></audio></td></tr>
+          <tr><td><span class="sample-num" style="background:#dc2626;">5</span></td>
+            <td><audio controls src="audio_files/telugu/inf5/5.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/basefs2/5.wav"></audio></td>
+            <td><audio controls src="audio_files/telugu/ours/5.wav"></audio></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer class="footer">
+  Audio samples for Interspeech 2026 submission &nbsp;·&nbsp; indiclone.github.io
+</footer>
+
+<script>
+  document.querySelectorAll('audio').forEach(a => {
+    a.addEventListener('play', () => {
+      document.querySelectorAll('audio').forEach(o => { if (o !== a) { o.pause(); o.currentTime = 0; } });
+    });
+  });
+</script>
+</body>
 </html>
